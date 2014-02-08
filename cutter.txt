@@ -1,0 +1,67 @@
+## lookup tables ##############################################################
+
+def expand_multiples(d):
+    """expand_multiples({"a b c": 1}) -> {"a": 1, "b": 1, "c": 1}"""
+    new = {}
+    for key in d:
+        newkeys = key.split()
+        for newkey in newkeys:
+            new[newkey] = d[key]
+    return new
+
+init_vowel = expand_multiples({"b": 2, "d": 3, "l m": 4, "n": 5, "p": 6, "r":7, "s t": 8, "u v w x y": 9})
+init_s = expand_multiples({"a": 2, "c ch": 3, "e":4, "h i": 5, "m n o p": 6, "t": 7, "u": 8, "w x y z": 9})
+init_qu = expand_multiples({"a": 3, "e":4, "i": 5, "o": 6, "r":7, "t": 8, "y":9})
+init_q = dict(zip(map(chr, range(ord("a"), ord("z")+1)), range(2,29+1)))
+init_cons = {"a": 3, "e":4, "i":5, "o":6, "r":7, "u":8, "y":9}
+expansion = expand_multiples({"a b c d": 3, "e f g h": 4, "i j k l": 5, "m n o": 6, "p q r s": 7, "t u v": 8, "w x y z": 9})
+
+## cutter function ############################################################
+"""Returns the Cutter number for the given title"""
+def cutter(title):
+    fst,snd,trd = map(lambda s: s.lower(), title[0:3])
+    out = fst.upper()
+	
+    if fst in "aeiou":
+        out += `init_vowel[snd]`
+    elif fst == "s":
+        if snd+trd == "ch":
+            snd = "ch"
+            trd = title[3].lower()
+        out += `init_s[snd]`
+    elif fst+snd == "qu":
+        fst = "qu"
+        snd = trd
+        trd = title[3].lower()
+        out += `init_qu[snd]`
+    elif fst == "q":
+        out += `init_q[snd]`
+    elif fst in "bcdfghjklmnpqrstvwxyz":
+        for chr in title[1:]:
+            if chr in init_cons:
+                snd = chr
+        out += `init_cons[snd]`
+    out += `expansion[trd]`
+    return out
+
+## test #######################################################################
+
+def _test_cutter():
+    t_vowels = ["IBM", "Idaho", "Ilardo", "Import", "Inman", "Ipswich", "Ito", "Ivy"]
+    t_s = ["Sadron","Scanlon","Schreiber","Shillingburg","Singer","Stinson","Suryani","Symposium"]
+    t_q = ["Qadduri","Qiao","Quade","Queiroz","Quinn","Quorum","Qutub","Qvortrup"]
+    t_cons = ["Campbell","Ceccaldi","Chertok","Clark","Cobblestone","Cryer","Cuellar","Cymbal"]
+    t_all = t_vowels + t_s + t_q + t_cons
+
+    r_vowels = "I26 I33 I4 I48 I56 I67 I87 I94".split()
+    r_s = "S23 S29 S37 S53 S57 S75 S87 S96".split()
+    r_q = "Q23 Q27 Q33 Q45 Q56 Q67 Q88 Q97".split()
+    r_cons = "C36 C43 C48 C58 C63 C79 C84 C96".split()
+    r_all = r_vowels + r_s + r_q + r_cons
+
+    pad_output = lambda s: " " * (15-len(s))
+
+    print "Title           ", "mine","\t","real","\t","match?"
+    print "-"*39
+    for (t,r) in zip(t_all, r_all):
+        print t, pad_output(t), cutter(t), "\t", r, "\t", cutter(t)==r
