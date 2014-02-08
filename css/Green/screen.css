@@ -1,0 +1,840 @@
+@import "../reset.css";
+@import "../fonts.css";
+
+body 
+{
+	background-color:#e7eee7;
+	background-repeat:repeat;
+	background-attachment: fixed;
+	text-align:center;
+	font-family:Tahoma; 
+	padding-bottom: 5px;
+	color: #fff;
+}
+
+/* LETRA ENCABEZADOS */
+h1, h2, h3, h4, h5 
+{
+	font-family:Microsoft Sans Serif; 
+}
+
+h1 {
+
+	font-size:130%;
+	line-height:1.1em;
+	color:#003300;
+	margin:0 0 .3em 0;
+	font-family:arial narrow; }
+
+h2 {
+
+	font-size:110%; /*FUENTE ENCABEZADO NOTAS DESTACADAS */
+	margin-bottom:5px;
+	margin-top:1em; 
+	line-height:1.1em; }
+
+/*FUENTES TODAS LAS CAJAS DE TEXTO*/
+p, li {
+	font-family:Corbel; 
+	font-size:100%;
+	margin:0 0 1em 0;
+	line-height:1.5em; }
+
+th, td {
+	font-size:100%; }
+
+blockquote {
+	
+	font-family:Brookhouse, Candara; 
+	margin: 0 .5em 1em;
+	padding-left:.5em;
+	line-height:1.5em;
+	border-left:4px solid #DDD; }
+
+
+ul, ol {
+	
+	margin-left:1em;
+	padding-left:1em; }
+
+ul {
+
+	list-style-type:square; }
+	
+ol { 
+	list-style-type:decimal; }
+
+
+li { 	
+	margin-bottom:.5em;
+
+	}
+	
+	
+li h2 { font-size:120%; }
+li h3 { font-size: 111%; }
+li p { font-size: 100%; }
+legend { font:bold 120% verdana,sans-serif; }
+
+a {
+
+	font-size:inherit; }
+	
+/* COLOR DE LIGAS RAPIDAS*/
+a:link {
+	color:#009900;
+}
+a:hover {
+	text-decoration:none;
+}
+
+/*COLOR COPYRIGH*/
+a:visited {
+	color:#587607;
+}
+
+a img { 
+	border:0px;
+}
+
+strong {
+
+	font-weight:bold; }
+	
+em {
+
+	font-style:italic; }
+
+/* CLASES ESPECIALES DE LA APLICACION */
+.subtitle {
+	text-transform:uppercase;
+	color:#666633;
+}
+
+/*PROPIEDADES DEL CONTENEDOR DE DATOS PRINCIPAL*/
+#contenedor {
+	border:1px solid gray;
+	background-color:#FFFFFF;
+	width:960px;
+	margin:0 auto;
+	position:relative;
+	text-align: left;
+	color: #76690E; /*color de texto de ligas rapidas viñetas*/
+}
+
+#bloque_principal {
+    clear:both;
+	margin:0;
+	border: 0px dotted blue;
+	padding:5px;
+	width:auto;
+}
+
+/* BANNER */
+
+#banner h1 {
+		
+	margin:0;
+	width:960px;
+	height:100px;
+	background-image: url(Green/Banner_green.jpg); /* esta imagen se debe sustituir dinamicamente desde la propia aplicación */
+	background-repeat:no-repeat; 
+}
+			
+#banner h1 a {
+	
+	display:block;
+	width:100%;
+	height:100px; }
+
+#banner h1 span {
+			
+			display:none; }
+			
+		
+
+
+#global-search {
+
+			font-family:Verdana, Arial, sans-serif; }
+
+
+
+/*************
+	NAV  
+*************/
+
+#global-nav {
+			text-align:right;
+			width:960px;
+			margin:0 auto;
+			padding:8px 0 4px;
+			color:#2E5A2E; }/*COLOR DE BARRAS Y NOMBRE DE USUARIO DE CUENTA*/
+
+#global-nav a {
+
+			font-size:80%;
+			font-family:Verdana, Arial, sans-serif; 
+			color:#2E5A2E; } /*COLOR TEXTO DE ENCABEZADOS O LIGAS DE PAG. PRINCIPAL*/
+
+	  
+/****************
+	COPYRIGHT
+****************/
+
+.block_copyright {
+	
+	clear:both;
+	padding:20px; }
+			
+	
+.block_copyright p {
+	
+	font-size:96%;
+	font-family:Candara; }
+	
+/****************
+	DOWNLOADS
+****************/
+
+	
+#download-chapter {
+	padding:10px;
+	background-color:#FFFFCC;
+	border:1px solid #CC9;
+}
+#download-chapter img, #sidebar .image {
+	float:right;
+	margin-left:8px;
+	margin-bottom:0;
+}
+#download-chapter h2 {
+	margin:0 0 4px;
+	color:#666633;
+}
+
+#download-chapter p {
+	margin-bottom:.5em;
+}
+
+
+/* HOME */
+
+.info {
+	font-size:115%;
+	color:#6C610D; } /*COLOR DE INFORMACION PRINCIPAL*/
+
+/* MENSAJES DE ERROR */
+.caja_errores
+{
+	background-color: #FFFFFF;
+	color: #993300;
+	border:1px solid #CCC;
+	padding:4px; 
+	clear:both;
+	font-size: 90%;
+	position: relative;
+}
+
+
+/* MENSAJES INFORMATIVOS */
+.caja_info
+{
+	background-color: #B0F145;
+	color: #006633;
+	border:1px solid #CCC;
+	padding:4px; 
+	clear:both;
+	font-size: 90%;
+	position: relative;
+}
+
+
+/* CAJA CON LIGAS */
+.caja_con_ligas 
+{
+	clear: both;
+	border-top:1px solid #CCC;
+	padding:16px 0; 
+	clear:both; }
+	
+.caja_con_ligas h1 { /*ENCABEZADOS DE LIGAS RAPIDAS*/
+
+	font-size:100%;
+	color:#333333; 
+	letter-spacing:2px; }
+
+.caja_con_ligas h2 {
+	
+	text-align:center;
+	font-size:100%;
+	color:#8C7D11; /*COLOR TEXTO CAJA DE TEXTO NOTICAS GRUPO GES*/
+	font-weight:bold; 
+	margin:8px 0; }
+	
+.caja_con_ligas .lista_elementos_indexada {
+
+	width:44%;
+	float:left;  }
+	
+.caja_con_ligas ol {
+
+	list-style:decimal;
+	list-style-position:outside; }
+	
+.caja_con_ligas li {
+	
+	line-height:1.3em; }
+	
+.caja_con_ligas li a {
+
+font-family:Verdana, Arial, sans-serif; /*TIPO DE FUENTES LIGAS*/
+	font-size:90%; }
+
+
+.link-rich-box-footer {
+
+	text-align:center; 
+	font-size:90%; 
+	margin:0;
+	padding-top:5px;  }
+	
+.link-rich-box-footer a {
+
+	font-size:100%; 
+	font-family:Eras Demi ITC;  }
+	
+.note
+{
+	font-size: 9px;
+	color: #B2F043;
+}	
+
+div.resaltados {
+	overflow:auto;
+	border: 4px solid #5a9a00;  /*COLOR DE BORDE DE NOTAS DESTACADAS*/
+	padding: 10px;
+	font-size: 88%;
+	
+}
+
+div.resaltados p {
+	font-weight:normal; 
+	}
+	
+div.resaltados ul 
+{
+	margin:10px 8px 20px; 
+}	
+
+div.resaltados h2 
+{
+	margin:0; 
+	color:#333333; /*ENCABEZADO NOTAS DESTACADAS*/
+}
+
+#contenido_unico 
+{
+	float:left;
+	width:100%;
+	padding-right:10px; 
+}
+
+#contenido_principal 
+{
+	float:left;
+	width:69%;
+	padding-left:5px; 
+	padding-right:5px; 
+	clear:both;
+	border:0px solid red;
+}
+	
+#contenido_adicional 
+{
+	float:right;
+	width:29%;
+	padding-left:3px; 
+	padding-right:3px; 
+	border:0px dotted purple;
+}
+	
+/* CAJAS DE DATOS */
+
+div.caja_datos,
+#bloque_principal {
+	overflow:auto; 
+	}
+
+/* CAJA DE DATOS INGRESAR DATOS DE ACCESO */
+div.caja_datos 
+{
+	position: relative;
+	background-color:#ECFCD1;
+	padding:5px;
+	border:1px solid #CCC;
+	font-family:Arial;  /*TIPOS DE FUENTES QUE MODIFCA CATALOGACION*/
+}
+	
+/*PROPIEDADES DE TEXTO INGRESAR DATOS DE ACCESSO*/
+div.caja_datos h2 
+{
+	font-size:130%;
+	letter-spacing:1.5px;
+	margin:	0; 
+	color:#484109;
+	font-family:arial;
+}
+	
+/*PROPIEDAES DE BOTON DE ACCESO*/	
+div.caja_datos input.submit, input.boton
+{
+	font-family: Verdana;
+	background-color:#8cb409;
+	color:#000000;
+	font-size:85%; 
+	width:auto;
+	padding:2px 5px; 
+	letter-spacing:1px; 
+	margin-left: 5px;
+	left: 11em;	
+}
+
+div.caja_datos #caja_datos_contenido 
+{
+	width:48%;
+	float:left; 
+	padding:20px 0 0; 
+}	
+/*CAJA DE TEXTOS CON VIÑETAS INGRESO DE DATOS DE ACCESO*/	
+div.caja_datos #vinetas 
+{
+	width:52%;
+	float:left; 
+	padding:20px 0.7em 10; 
+	color: #9D8C13; /*COLOR TEXTO DE TIPOS DE ACCESO DE DATOS*/
+}	
+
+div.caja_datos #vinetas ul 
+{
+	list-style:outside disc; 
+}
+
+div.caja_datos #vinetas li {
+	font-size:100%; 
+	margin:0; 
+	line-height:1.2em; }
+
+/* FORMAS PARA CAPTURA DE DATOS */ 
+form.forma_captura { position:relative; }
+
+form.forma_captura label {
+   display: block;
+   float: left;
+   margin-bottom: 0.5em;
+   text-align: right;
+   width: 12em;
+   padding-right: 1em;   
+   padding-top: 2px;
+   margin: 0px;
+}
+
+span.span_captura
+{
+   display: block;
+   padding-left: 3px;
+   padding-top: 2px;
+   padding-bottom: 1px;
+
+}
+
+input.campo_captura 
+{
+   display: block;
+   margin-bottom: 4px;
+   font-family: "Arial", "Times New Roman", Times, serif; 
+   padding-left: 3px;
+   padding-right: 3px;
+   padding-top: 1px;
+   padding-bottom: 1px;
+}
+
+select.select_captura
+{
+   display: block;
+   margin-bottom: 4px;
+   font-family: "Arial", "Times New Roman", Times, serif; 
+   padding-left: 3px;
+}
+
+form.forma_captura br {
+   clear: left;
+}	
+
+/* BARRA DE BOTONES  (SE PUEDE REDEFINIR EN CADA VENTANA)*/
+
+#buttonarea 
+{
+    display: block;
+	float: left;
+	position: relative; 
+	border: 0px solid red; 
+	margin-bottom: 10px; 
+	left: 12em;
+/*	height: 30px;*/
+	
+}
+
+/* master DIV para eleccion de fecha */
+div.div_fecha
+{  	
+	display:block;
+	margin-bottom:4px;
+	padding-left:3px;
+	padding-top:10px;
+	padding-bottom:1px;
+/*	float: left;
+	position:relative; 
+    border: 0px solid blue; */
+	width: 120px;
+}
+
+/* menus y submenus */
+/* barra del menu (con opciones principales) */
+#menu 
+{
+   background-color: #3e413e; 
+   height: 25px;
+   clear: both;
+   margin: 0px;
+   width: 100%;
+}
+	
+/* elementos especialmente subrayados o realzados */
+.highlight   
+{   
+	background: #F8DCB8;   
+}   
+  
+.highlight_important   
+{   
+	background: #CEDAEB;   
+}  	
+
+/* dentro de las tablas es una columna que se dibuja cuadriculada */
+TD.cuadricula
+{
+   padding-top     : 1px;
+   padding-bottom  : 1px;   
+   border-top : 1px solid #E3DFDF;    
+   border-bottom : 1px solid #E3DFDF;    
+   border-left : 1px solid #E3DFDF;    
+   border-right : 1px solid #E3DFDF;    
+}	
+
+/* columnas regulares con un espacio a la izquierda y derecha */
+TD.columna
+{
+   padding-left    : 3px;
+   padding-right  : 3px;   
+}	
+
+TD.columnaEncabezado
+{
+   /*font-weight: bold;*/
+   font-size: 90%;
+   border-bottom: 1px solid #989591;
+   background: url(fondo_title_columns.png);
+   background-repeat: repeat-x;
+   background-position: bottom left; 
+}	
+
+TD.columnaError
+{
+   padding-left    : 3px;
+   padding-right  : 3px;   
+   background-color: #ABF044;
+}
+
+
+TD.columnaDeshabilitado
+{
+   font-size: 90%;
+   color: gray;
+	
+}	
+
+
+
+.label_info {
+   display: block;
+   float: left;
+   margin-bottom: 0.5em;
+   text-align: right;
+   width: 15%;
+   padding-right: 5px;
+   margin: 0px;
+   font-weight: bold;
+   clear: both;
+   border: 0px solid red;
+}
+
+.data_info {
+   display: block;
+   float: left;
+   margin-bottom: 0.5em;
+   text-align: left;
+   width: 80%;   
+   padding-left: 5px;
+   margin: 0px;
+   border: 0px solid green;  
+}
+
+TR.trHilited
+{
+	background: #FAF9B3;
+	border: 2px solid red;
+}
+
+/* menus contextuales */
+div.popup
+{
+	position: absolute;
+	visibility: hidden;
+	margin: 0;
+	padding: 0;
+	padding-top: 12px;
+	background-color: #1941A5;
+	border: 1px solid gray; 
+	font-family: Arial, "Times New Roman", Times, serif; 
+	padding-left: 4px;
+	padding-right: 4px;
+	padding-bottom: 6px;	
+}
+
+div.popup H2
+{
+	position: absolute;
+	font-size: 100%;
+	margin-left: 5px;
+	padding: 5px;
+	background: #FAF9B5;
+	top: -8px;
+	font-family: Arial, "Times New Roman", Times, serif; 
+}
+
+	div.popup a
+	{	position: relative;
+		display: block;
+		margin: 0;
+		padding: 5px 5px;
+		width: auto;
+		white-space: nowrap;
+		text-align: left;
+		text-decoration: none;
+		color: #000; 
+		font-size: 11px;
+		border: 0px solid black;
+	}
+	
+	div.popup a:hover
+	{	
+		border: 0px solid black;
+		background-color:#F8DC1F;
+	}	
+
+	
+/* TABS */
+/* tabuladores o menús */
+.tabset_tabs	{ margin:0; list-style-type:none; position:relative;height: 18px; border-bottom: 1px solid gray; }
+.tabset_tabs li	{ margin:0; display: inline;  }
+.tabset_tabs a	{ color :#339; background-color:white; border:1px solid silver; text-decoration:none; padding:4px 1em; border-left-width:1; border-bottom:1px solid gray; }
+.tabset_tabs a:hover	{ color:#00c; background-color: #E3FDB3; text-decoration: underline; border-top: 2px solid gray;  }
+.tabset_tabs a.active	{ color:black; background: url(fondo_tabs.jpg); background-color:#E3FDB3; border-bottom: 1px solid #E3FDB3; border-top: 2px solid gray;  border-left:2px solid gray; border-right:2px solid gray; cursor:default; padding-left:-2px; padding-top:2px;  font-weight: bold;  }
+
+.tabset_tabs li.firstchild a	{ border-left-width:1px }
+
+DIV.contenedor_tabs
+{
+	position: relative;
+	background: #FFFFFF url(fondo_tabs.jpg) repeat-x;
+	padding: 5px;
+	border-right: 1px solid gray;
+	border-left: 1px solid gray;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: GRAY;
+	margin-top: 0px;
+	overflow: auto;
+   }
+   
+  
+/* clausulas A que cuentan con imagenes y algún texto (probablemente) */  
+ .icon_link
+ {
+	border: 1px solid #E3DFDF;    
+	background: #fff;
+	margin: 1px;
+	padding: 2px;
+	text-decoration: none;
+	border-bottom: 1px solid gray;
+	border-right: 1px solid gray;
+	
+ }
+ 
+  .icon_link:hover
+ {
+	border: 1px dotted #E3DFDF;    
+	background: yellow;
+	text-decoration: none;
+	border-bottom: 2px solid gray;
+	border-right: 2px solid gray;
+ }
+ 
+ .icon_link IMG
+ {
+	position: relative;
+	top: 4px;
+ }
+ 
+ /* caja estilo TPanel de Delphi, usando H2 como caption */
+ div.groupbox
+ {
+	border: 1px solid silver; 
+	padding:5px; 
+	margin-right: 5px;
+ }
+ 
+ div.groupbox H2
+ {
+	display: inline; 
+	position: relative; 
+	top: -12px; 
+	padding-left: 5px; 
+	padding-right: 5px; 
+	background-color: #009900; 
+	font-weight: bold;
+ }
+ 
+ div.groupbox TABLE
+ {
+	position: relative;
+	top: -5px;
+ }
+ 
+ /***
+  COLOCAR EN SCREEN.CSS
+ */
+/* The hint to Hide and Show */
+.sp_hint {
+   	display: none;
+    position: absolute;
+    right: 10px;
+    width: 200px;
+    margin-top: -4px;
+    border: 1px solid #009900;
+    padding: 10px 12px;
+    /* to fix IE6, I can't just declare a background-color,
+    I must do a bg image, too!  So I'm duplicating the pointer.gif
+    image, and positioning it so that it doesn't show up
+    within the box */
+    background: #C5F574 url(pointer.gif) no-repeat -10px 5px;
+}
+
+/* The pointer image is hadded by using another span */
+.sp_hint .hint-pointer {
+    position: absolute;
+    left: -10px;
+    top: 5px;
+    width: 10px;
+    height: 19px;
+    background: url(pointer.gif) left top no-repeat;
+}
+
+#popUpBlock
+{
+	display: none;
+	position: absolute;
+	background-color: gray;
+	left: 1px;
+	
+	top: 4px;
+	width: 100%;
+	min-height: 99%;
+	overflow: auto;
+
+	filter:alpha(opacity=35);
+	-moz-opacity:0.35;
+	opacity: 0.35;		
+	
+	border: 0px solid silver;
+	border-bottom; 4px solid gray;
+	
+	z-Index: 48;
+}
+
+/* CAJA COMMENTARIOS 
+   05nov2009
+*/
+.caja_comentarios
+{
+	clear: both;
+	border-top: 1px dotted #CCC;
+	padding-top: 10px; 
+	clear: both; 
+}
+
+.caja_comentarios .perfil_usuario
+{
+	font-size:110%;
+	color:#660000; 
+	width: 29%;
+	float: left;
+	
+}
+		
+.caja_comentarios .perfil_usuario H1
+{
+	font-size:105%;
+	color:black; 
+	display: inline;
+}
+
+.caja_comentarios .perfil_usuario H2
+{
+	font-size:95%;
+
+	letter-spacing:1px; 
+	display: inline;
+}
+
+.caja_comentarios .perfil_usuario H3
+{
+	font-size:85%;
+	display: inline;
+}
+
+.caja_comentarios .perfil_usuario A
+{
+	font-size:80%;
+	display: inline;
+}
+
+.caja_comentarios .detalles
+{
+	font-size:100%;
+	color: #000; 
+	/*background-color: #F00;*/
+	width: 70%;
+	float: right;
+	border-left: 1px solid silver;
+	padding-left: 5px;
+}
+
+.caja_comentarios .detalles H1
+{
+	font-size:120%;
+	color:black; 
+	letter-spacing:1px; 
+	display: inline;
+}
