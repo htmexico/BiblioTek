@@ -88,6 +88,7 @@
 		$db->destroy();
 		
 		ges_redirect( "serv_usuarios.php?page=$page&id_user_pwd_changed=$id_usuario_pwd_changing" );
+		
 	}
 	else if( $the_action == "importar_usuarios" )
 	{
@@ -111,6 +112,9 @@
 				
 				if (!is_object($xml))
 					throw new Exception("Error en la lectura del archivo XML $nombre_archivo",1001);					
+				
+				$privilegios_marcados = trim($_POST['privilegios_marcados']);
+				$array_privilegios = split( " ", $privilegios_marcados );		
 				
 				ini_set( "display_errors", "on" );
 				
@@ -139,7 +143,7 @@
 					$fecha_nacimiento = "";				
 					
 					if( isset($usuario->LOGIN) ) $user_name = $usuario->LOGIN;
-					if( isset($usuario->USERNAME) ) $user_name = $usuario->USERNAME;
+					if( isset($usuario->USERNAME) ) $user_name = trim($usuario->USERNAME);
 					
 					if( isset($usuario->PASSWORD) ) $password_usuario = $usuario->PASSWORD;
 					if( isset($usuario->SEC_CRITICO) ) $password_usuario = $usuario->SEC_CRITICO;
@@ -147,9 +151,14 @@
 					if( isset($usuario->GENERO) ) $genero = $usuario->GENERO;
 					if( isset($usuario->SEXO) ) $genero = $usuario->SEXO;
 					
-					if( isset($usuario->PATERNO) ) $apellido_paterno = $usuario->PATERNO;
-					if( isset($usuario->MATERNO) ) $apellido_materno = $usuario->MATERNO;
-					if( isset($usuario->NOMBRE) ) $nombre = $usuario->NOMBRE;
+					if( isset($usuario->PATERNO) ) $apellido_paterno = utf8_decode($usuario->PATERNO);
+					if( isset($usuario->MATERNO) ) $apellido_materno = utf8_decode($usuario->MATERNO);
+					if( isset($usuario->NOMBRE) ) $nombre = utf8_decode($usuario->NOMBRE);
+					
+					if( isset($usuario->NOMBRE_USUARIO) and (!isset($usuario->NOMBRE)) )
+					{ 
+						$nombre = utf8_decode($usuario->NOMBRE_USUARIO);
+					}
 					
 					if( isset($usuario->DIRECCION) ) $direccion = $usuario->DIRECCION;
 					if( isset($usuario->TELEFONO) ) $telefono = $usuario->TELEFONO;
@@ -202,6 +211,9 @@
 							
 							$db->Close();					
 							
+							if( strlen($telefono)>20)
+								$telefono = substr( $telefono, 0, 20 );
+							
 							$sql  = "INSERT INTO cfgusuarios ( ID_BIBLIOTECA, ID_USUARIO, USERNAME, PASSWRD, ID_GRUPO, PATERNO, MATERNO,";
 							$sql .= " NOMBRE, DIRECCION, TELEFONO, E_MAIL, E_MAIL_ALTERNO, STATUS, GENERO, FECHA_NACIMIENTO) ";
 							$sql .= " VALUES ( $id_biblioteca, $id_usuario, '$user_name', '$password_usuario', '$id_grupo_migrar', '$apellido_paterno', '$apellido_materno',";
@@ -209,7 +221,21 @@
 							
 							$insertados = $db->ExecSQL( $sql );
 							
+							$id_usuario_admin 	= getsessionvar('id_usuario');	
+							
 							//if( $insertados > 0 ) echo "Insertado $insertados <br>";
+							if( !empty($privilegios_marcados) )
+							{			
+								for( $k=0; $k < count($array_privilegios); $k++ )
+								{
+									$num_priv = $array_privilegios[$k];
+														
+									$insert_sql_p  = "INSERT INTO cfgusuarios_privilegios ( ID_BIBLIOTECA, ID_USUARIO, PRIVILEGIO, FECHAYHORA, ID_USUARIO_ADMIN )";
+									$insert_sql_p .= " VALUES ( $id_biblioteca, $id_usuario, $num_priv, CURRENT_TIMESTAMP, $id_usuario_admin )";
+									
+									$db->ExecSQL( $insert_sql_p );
+								}		
+							}								
 							
 							$creados += $insertados;
 						}
@@ -228,8 +254,6 @@
 				$msg_exito = "No se crearon usuarios";
 			}
 			
-			echo $msg_exito;
-			
 			$db->destroy();
 		}
 	}
@@ -245,6 +269,8 @@
 
 <SCRIPT type="text/javascript" language="JavaScript">
 
+	var aGruposAdmvos = new Array();
+	
 	function create_new_user()
 	{
 		var url = "serv_registrousuarios.php?page=<?php echo $page;?>";
@@ -399,6 +425,13 @@
 			{
 				var id_group = js_getElementByName_Value("cmb_groups");
 				
+				var val_grupo = js_GroupOptionSelected("cmb_group_to_migrate_into");
+		
+				if( val_grupo.indexOf("*") == -1 )
+				{
+					document.import_users.privilegios_marcados.value = "";
+				}
+				
 				document.import_users.id_group.value = "";
 				document.import_users.method = "POST";
 				document.import_users.target = "_self";
@@ -412,6 +445,75 @@
 		HideDiv( "screen_block_layer" );
 		HideDiv( "popup_importar" );		
 	}		
+	
+		// devuelve el nombre del grupo elegido
+		function js_GroupOptionSelected( obj_name )
+		{
+			var res = "";
+			var val = document.getElementsByName( obj_name );
+			
+			for( i = 0; i < val[0].options.length; i++ )
+			{
+				if ( val[0].options[i].selected )
+				{
+					res = val[0].options[i].text;
+					break;
+				}
+			}			
+			
+			return res;					
+		}
+		
+		function seleccionaPriv()
+		{	   
+			var inputPriv  = document.getElementsByName("privilegios_marcados");		
+			var elementos = "";		
+			var elemento_checkbox;	
+			
+		 	var txt_total_privilegios = document.getElementsByName("privilegios_totales");
+			  
+			var total_privilegios = 0;
+			
+			if( txt_total_privilegios.length > 0 )
+			   total_privilegios = parseInt( txt_total_privilegios[0].value );	
+			
+			inputPriv[0].value = "";		
+			
+			for( var i=1; i<=total_privilegios; i++ )
+			{
+				elemento_checkbox = document.getElementsByName( "priv_" + i );
+				
+				if( elemento_checkbox.length > 0 )
+				{
+					if( elemento_checkbox[0].checked )
+					{
+						if( elementos != "" )
+						   elementos += " ";
+						elementos += elemento_checkbox[0].value;							  					
+					}
+				}
+			}
+			
+			inputPriv[0].value = elementos;		
+			alert( elementos );
+		}		
+	
+	function show_hide_privs()
+	{
+		var val_grupo = js_GroupOptionSelected("cmb_group_to_migrate_into");
+		
+		if( val_grupo.indexOf("*") != -1 )
+		{
+			var div_grupo = document.getElementById( "privilegios" );
+			
+			div_grupo.style.display = "block";
+			div_grupo.style.visibility = "visible";
+		}
+		else
+			HideDiv( "privilegios" );
+		
+		
+	}
 
 </SCRIPT>
 
@@ -458,8 +560,8 @@
 		
 		border: 2px solid black;
 		
-		width: 680px;
-		height: 250px;
+		width: 720px;
+		height: 450px;
 		z-Index: 100;
 		color: black;
 		
@@ -530,31 +632,135 @@ div.x-pageRanges
 
   display_global_nav();  // barra de navegación superior
   
- ?>
-
-<!-- contenedor principal -->
-
-<div id="contenedor">
-
-<?php 
-   display_banner();  // banner   
-   display_menu('../'); // menu principal
    
    $db = new DB();
    
    $array_groups = Array();
    
-   $db->Open( "SELECT a.ID_GRUPO, a.NOMBRE_GRUPO FROM cfgusuarios_grupos a WHERE a.ID_BIBLIOTECA=$id_biblioteca ORDER BY a.ID_GRUPO " );
+   $db->Open( "SELECT a.ID_GRUPO, a.NOMBRE_GRUPO, a.USUARIOS_ADMINISTRATIVOS FROM cfgusuarios_grupos a WHERE a.ID_BIBLIOTECA=$id_biblioteca ORDER BY a.ID_GRUPO " );
    
    while( $db->NextRow() )
    {
 	   $array_groups[] = $db->row;
    }
    
-   $db->Close();
+   $db->Close();  
+  
+   ini_set( "display_errors", "on" );
    
  ?>
- 
+
+<!-- contenedor principal -->
+
+	<!-- INICIA popup_importar -->
+		<div class='groupbox' id='popup_importar' name='popup_importar' >
+			<form enctype="multipart/form-data" action="serv_usuarios.php" name="import_users" id="import_users" >			
+			
+				<input type="hidden" name="MAX_FILE_SIZE" value="30000000" />
+				<input type="hidden" class="hidden" name="uploadfile" value="YES" >
+				<input type="hidden" class="hidden" name="id_group" id="id_group" value="" >
+				<input type="hidden" class="hidden" name="the_action" value="importar_usuarios" >
+			
+				<h2>Importar Usuarios desde otros sistemas</h2><br>
+
+					  <div style='border:0px solid red;'>
+
+						<label for='userfile'><strong>Nombre del Archivo</strong></label><br><br>
+						<input name="userfile" type="file" maxLength=80 size=80 value="">
+						<input type='hidden' class='hidden' id="user_group" name="user_group" value="">
+						
+						<br><br>
+
+						 <label for='userfile'><strong>Importar dentro del Grupo:</strong></label>
+
+						 <?php
+							
+							echo "<select id='cmb_group_to_migrate_into' name='cmb_group_to_migrate_into' onchange='show_hide_privs();' >";  
+							echo "<option value='--'>Elija un grupo</option>";
+							foreach( $array_groups as $usr_group )
+							{
+								$usuarios_administrativos = "";
+								
+								if( $usr_group['USUARIOS_ADMINISTRATIVOS'] == "S" )
+								{
+									$usuarios_administrativos = "**";
+									SYNTAX_JavaScript( 1, 1, "aGruposAdmvos.push( " . $db->row['ID_GRUPO'] . ");" );
+								}
+								
+								echo "<option " . ( $id_group==$usr_group["ID_GRUPO"] ? "selected":"")." value='" . $usr_group["ID_GRUPO"] . "'>" . $usr_group["NOMBRE_GRUPO"]. "$usuarios_administrativos</option>";
+							}
+							echo "</select>";
+						?>
+
+						<div id="privilegios" name="privilegios" class="groupbox" style="display: none; font-size: 80%; height: 220px; overflow : auto; scrollbar-base-color:#369; scrollbar-highlight-color:#5569b4;  ">				
+						   <br><h2>Elija los permisos</h2>
+							<?php
+							
+								$db->Open( " SELECT a.PRIVILEGIO, a.DESCRIPCION " . 
+										   " FROM cfgprivilegios a " .
+										   " ORDER BY a.TIPOPRIVILEGIO, a.PRIVILEGIO ");
+								
+								$num=0;
+								$checado="";
+								
+								$bold_active = true;
+								$last_ciento = -1;
+								
+								while( $db->NextRow() )
+								{
+									$num++;
+									
+									if( ((int) ($db->Field("PRIVILEGIO") / 100)) != $last_ciento )
+									{
+										$last_ciento = (int) ($db->Field("PRIVILEGIO") / 100);
+										$bold_active = !$bold_active;
+									}
+									
+									$class_hilite = "hilite_even";
+									
+									if( $bold_active ) 
+										$class_hilite = "hilite_odd";
+									
+									echo "<DIV class='$class_hilite'><input name='priv_$num' id='priv_$num' value='" . $db->Field("PRIVILEGIO") . 
+										 "' type='checkbox'  onClick='javascript:seleccionaPriv();'>&nbsp;" . $db->Field("DESCRIPCION") . "</DIV>";		
+										 		
+								}
+																	
+								echo '<input id=privilegios_totales name=privilegios_totales type=hidden class=hidden value="' . $num . '">';
+								echo "<input id=privilegios_marcados name=privilegios_marcados type='hidden' class=hidden value=''>";
+										
+								$db->Close();			
+								
+								echo "<br>";
+							
+						  	?>	
+									
+						</div>	
+						 
+						&nbsp;
+						<br><br>
+						<input class="boton" type="button" value="Proceder" name="btnBuscar" id="btnBuscar" onClick="javascript:importar_go();">&nbsp;
+						<input class="boton" type="button" value="Cancelar" name="btnClose" id="btnClose" onClick='javascript:CloseImportDialog();'><br>
+
+					  </div>
+
+				<br>		
+
+			</form>
+		
+		</div> <!-- popup_importar -->		
+	  
+
+
+<div id="contenedor">
+
+<?php 
+   display_banner();  // banner   
+   display_menu('../'); // menu principal
+
+   
+ ?>
+
    <div id="bloque_principal"> 
       <div id="contenido_principal">
 	   
@@ -596,53 +802,6 @@ div.x-pageRanges
 			
 		</div>
 		<!--- FIN POPUP CAMBIAR PASSWORD  -->	  
-		
-	<!-- INICIA popup_importar -->
-		<div class='groupbox' id='popup_importar' name='popup_importar' >
-			<form enctype="multipart/form-data" action="serv_usuarios.php" name="import_users" id="import_users" >			
-			
-				<input type="hidden" name="MAX_FILE_SIZE" value="30000000" />
-				<input type="hidden" class="hidden" name="uploadfile" value="YES" >
-				<input type="hidden" class="hidden" name="id_group" id="id_group" value="" >
-				<input type="hidden" class="hidden" name="the_action" value="importar_usuarios" >
-			
-				<h2>Importar Usuarios desde otros sistemas</h2><br>
-
-					  <div style='border:0px solid red;'>
-
-						<label for='userfile'><strong>Nombre del Archivo</strong></label><br><br>
-						<input name="userfile" type="file" maxLength=80 size=80 value="">
-						<input type='hidden' class='hidden' id="user_group" name="user_group" value="">
-						
-						<br><br>
-
-						 <label for='userfile'><strong>Importar dentro del Grupo:</strong></label>
-
-					 <?php
-						
-						echo "<select id='cmb_group_to_migrate_into' name='cmb_group_to_migrate_into'>";  
-						foreach( $array_groups as $usr_group )
-						{
-							echo "<option " . ( $id_group==$usr_group["ID_GRUPO"] ? "selected":"")." value='" . $usr_group["ID_GRUPO"] . "'>" . $usr_group["NOMBRE_GRUPO"]. "</option>";
-						}
-						echo "</select>";
-					?>
-
-
-						 
-						&nbsp;
-						<br><br><br>
-						<input class="boton" type="button" value="Proceder" name="btnBuscar" id="btnBuscar" onClick="javascript:importar_go();">&nbsp;
-						<input class="boton" type="button" value="Cancelar" name="btnClose" id="btnClose" onClick='javascript:CloseImportDialog();'><br>
-
-					  </div>
-
-				<br>		
-
-			</form>
-		
-		</div> <!-- popup_importar -->		
-	  
 
        <div id="info_general" class="caja_datos">
 	   	   

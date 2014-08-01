@@ -18,7 +18,7 @@
  **/
 	session_start();
 	
-	set_time_limit( 120 );
+	set_time_limit( 0 );
 		
 	include "../funcs.inc.php";
 	include "../actions.inc.php";
@@ -176,7 +176,7 @@
 	//include "clase_config.inc.php";  		// incluir clase cuenta	
 	//$cfgsyscuenta = new TConfigSys( $id_cuenta, $db );		
 
-
+/*
 	$sql = "SELECT a.ID_BIBLIOTECA, a.ID_TITULO, a.ID_DESCRIPTOR, a.ID_CAMPO, a.CODIGO, a.SUBCODIGO, a.ID1, a.ID2, a.VALOR " .
 			" FROM ACERVO_CATALOGACION a " .
 			"WHERE a.ID_BIBLIOTECA=5 and VALOR <> '' and (ID_CAMPO <> '$$$' and ID_CAMPO<>'008' and ID_CAMPO<>'001' and ID_CAMPO<>'005') ";
@@ -205,9 +205,7 @@
 	}
 	
 	$db->Close();
-	
-	
-	
+	*/
 	
  ?>
 
@@ -369,7 +367,6 @@
 
 				try
 				{
-
 					if( filesize( $nombre_archivo ) > 20*(1024*1024) )
 					{
 						throw new Exception( 'El tamaño del archivo es muy grande (mayor a 20MB). Solicite apoyo a soporte técnico.', 1001 );	
@@ -377,6 +374,8 @@
 					
 					ini_set( "memory_limit" , "128M" );
 					ini_set( "output_buffering", "10" );
+					
+					ini_set( "display_errors", "on" );
 					
 					// Tiempo de inicio
 					$starttime = time();
@@ -435,15 +434,15 @@
 						
 						$procesando = 0;
 						
-						foreach ($xml->Fichas as $recurso ) 
+						foreach ($xml->record as $recurso ) 
 						{
 							//print_r( $recurso );
 							
-							$verif_MyFile = getsessionvar("ss_physical_dir") . "custom/arch_" . $recurso->Id . ".marc";
+							$verif_MyFile = getsessionvar("ss_physical_dir") . "custom/arch_" . $recurso->ID . ".marc";
 							
 							if( file_exists( $verif_MyFile ) )
 							{
-								echo "Ya fue migrado $recurso->Id <br>";
+								echo "Ya fue migrado $recurso->ID <br>";
 							}
 							else
 							{
@@ -647,7 +646,6 @@
 								$marc_record->FNivelRegistro_Recurso = "#";
 					
 								$marc_record->FMapaEntradas 		 = 0;  // em
-									
 								
 								// genera el registro MARC según ISO2709
 								// esto mismo genera la cabecera
@@ -684,9 +682,10 @@
 								}
 								else
 								{
-									if( $id_biblioteca == 11 )
-										$ejemplares = 1;	
+									$ejemplares = 1;	
 								}
+								
+								echo $ejemplares . "<br>";
 								
 								// usar existencias o EJEMPLARES
 								//
@@ -698,37 +697,52 @@
 										$num_copia = $recurso->ETIQUETA;
 									else if( isset($recurso->NO_CLASIF) )
 										$num_copia = $recurso->NO_CLASIF;
+									else if( isset($recurso->NO_CONTROL_EJEMPLARES) )
+										$num_copia = $recurso->NO_CONTROL_EJEMPLARES;										
 									
 									if( $num_copia != "" )
 									{
-										// generar el nuevo ID del item (ejemplar)
-										$id_item = 0;
-										$db->Open( "SELECT MAX(ID_ITEM) AS MAXID FROM acervo_copias WHERE ID_BIBLIOTECA=$id_biblioteca" );
+										$ejemplares_info = explode( ";", $num_copia );
 										
-										if ($db->NextRow() ) 
-											$id_item  = $db->Field("MAXID") + 1;
+										for( $ndx_Ejemplar=0; $ndx_Ejemplar < count($ejemplares_info); $ndx_Ejemplar++ )
+										{
+											$num_copia = trim($ejemplares_info[$ndx_Ejemplar]);
 											
-										$db->Close();
+											// generar el nuevo ID del item (ejemplar)
+											$id_item = 0;
+											$db->Open( "SELECT MAX(ID_ITEM) AS MAXID FROM acervo_copias WHERE ID_BIBLIOTECA=$id_biblioteca" );
+											
+											if ($db->NextRow() ) 
+												$id_item  = $db->Field("MAXID") + 1;
+												
+											$db->Close();
+											
+											$fecha = $recurso->FECHA;
+		
+											$id_location = "NULL";  
+											$fecha_recepcion = "NULL";
+											
+											if( isset($recurso->FECHA) )
+												$fecha = $recurso->FECHA;  //  
+												
+											if( isset($recurso->UBICACION) )
+												$id_location = $recurso->UBICACION;
+												
+											$item_status = "D";
+											
+											$db->sql  = "INSERT INTO acervo_copias ( ID_BIBLIOTECA, ID_ITEM, ID_TITULO, ID_COPIA, CATEGORIA_PRESTAMO,  ";
+											$db->sql .= "  ID_MATERIAL, NUMERO_PARTE, SERIES_FECHA_PUBLICACION, FECHA_RECEPCION, PRECIO_ADQUISICION, ID_ADQUISICION, ID_UBICACION, SIGNATURA_PREFIJO, SIGNATURA_CLASE, SIGNATURA_LIBRISTICA, ";
+											$db->sql .= "  STATUS, ESTADO_FISICO, MATERIAL_ADICIONAL, SERIES_TITULO, SERIES_TITULOSECUNDARIO, ";
+											$db->sql .= "  SERIES_VOLUMEN, SERIES_EPOCA, SERIES_ANIO, SERIES_MES, SERIES_NUMEROESPECIAL, SERIES_PAPEL_ELECTRONICO ) ";
+											$db->sql .= " VALUES ( $id_biblioteca, $id_item, $marc_record->nIDTitulo, 1, $tesauro_id_categoria_prestamo, ";
+											$db->sql .= "  		    '$num_copia', '$x', null, $fecha_recepcion, 0, 0, $id_location, '', '', '', ";
+											$db->sql .= "		      '$item_status', $tesauro_id_estado_fisico, '', '', '',";
+											$db->sql .= " 			  null, '', '', '', '', '' ) ";
+											$db->ExecSQL();
+											
+											echo $num_copia . "<br>";
+										}
 										
-										$fecha = $recurso->FECHA;
-	
-										$id_location = "NULL";  
-										$fecha_recepcion = "NULL";
-										
-										if( isset($recurso->FECHA) )
-											$fecha = $recurso->FECHA;  //  
-										
-										$item_status = "D";
-										
-										$db->sql  = "INSERT INTO acervo_copias ( ID_BIBLIOTECA, ID_ITEM, ID_TITULO, ID_COPIA, CATEGORIA_PRESTAMO,  ";
-										$db->sql .= "  ID_MATERIAL, NUMERO_PARTE, SERIES_FECHA_PUBLICACION, FECHA_RECEPCION, PRECIO_ADQUISICION, ID_ADQUISICION, ID_UBICACION, SIGNATURA_PREFIJO, SIGNATURA_CLASE, SIGNATURA_LIBRISTICA, ";
-										$db->sql .= "  STATUS, ESTADO_FISICO, MATERIAL_ADICIONAL, SERIES_TITULO, SERIES_TITULOSECUNDARIO, ";
-										$db->sql .= "  SERIES_VOLUMEN, SERIES_EPOCA, SERIES_ANIO, SERIES_MES, SERIES_NUMEROESPECIAL, SERIES_PAPEL_ELECTRONICO ) ";
-										$db->sql .= " VALUES ( $id_biblioteca, $id_item, $marc_record->nIDTitulo, 1, $tesauro_id_categoria_prestamo, ";
-										$db->sql .= "  		    '$num_copia', '$x', null, $fecha_recepcion, 0, 0, $id_location, '', '', '', ";
-										$db->sql .= "		      '$item_status', $tesauro_id_estado_fisico, '', '', '',";
-										$db->sql .= " 			  null, '', '', '', '', '' ) ";
-										$db->ExecSQL();
 									}
 								}
 								

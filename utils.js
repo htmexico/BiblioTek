@@ -193,8 +193,10 @@ function ShowPopupDIV( name )
 		divID.style.display = "inline";
 		divID.style.visibility = "visible";
 		
+		
+		
 		var calc_left = ( (the_width / 2) - (divID.offsetWidth / 2) );
-			
+		
 		divID.style.left = calc_left + "px";
 		
 		if( calc_left < 0 ) divID.style.left = "20px";
@@ -204,11 +206,14 @@ function ShowPopupDIV( name )
 		if( ScrollTop_ViewPort() + pos_Y < 0 ) 
 			divID.style.top = "10px";
 		else
-			divID.style.top = (ScrollTop_ViewPort() + pos_Y) + "px";		
+			divID.style.top = (ScrollTop_ViewPort() + pos_Y) + "px";
+			
+		return true;
 		
 	}
 	else
 		return false;
+		
 }
 
 

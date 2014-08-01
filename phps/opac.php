@@ -455,6 +455,7 @@
 		return $ret;
 	}
 	
+	// Resalta las palabras de una busqueda
 	// 26-mar-2009
 	// 19-oct-2009: Se mueve de funcs.inc.php
 	function hightlight($str, $keywords = '')   
@@ -467,24 +468,34 @@
 		$style_i = 'highlight_important';   
 	  
 		/* Apply Style */  
-	  
 		$var = '';   
+	  
+		$keywords_replaced = Array();
+	  
+		$keywords = htmlentities($keywords);
 	  
 		foreach(explode(' ', $keywords) as $keyword)   
 		{   
-			$replacement = "<xxyyzzxxyyyzz>" . $keyword . "</xxyyzzxxyyyzz>";
+			$keyword_upper = strtoupper($keyword);
+			if( $keyword_upper == "Y" or $keyword_upper == "LA" or $keyword_upper == "EL" or $keyword_upper == "DE" or $keyword_upper == "X" or $keyword_upper == "Z"
+				or $keyword_upper == "EN" ) continue;
+
+			if( in_array( $keyword_upper, $keywords_replaced )) continue;
+
+			$replacement = "{xxyyzzxxyyyzz}" . $keyword . "{/xxyyzzxxyyyzz}";
 			$var .= $replacement." ";   
 	  
-			$str = str_replace($keyword, $replacement, $str);   
+			$str = str_ireplace($keyword, $replacement, $str);   
+			
+			$keywords_replaced[] = $keyword_upper;
 		} 
-		
 		
 		
 		//$replacement = "<span class='".$style."'>".$keyword."</span>";
 	  
 		/* Apply Important Style */  
-		$str = str_replace( "<xxyyzzxxyyyzz>", "<span class='$style'>", $str);   
-		$str = str_replace( "</xxyyzzxxyyyzz>", "</span>", $str);   
+		$str = str_replace( "{xxyyzzxxyyyzz}", "<span class='$style'>", $str);   
+		$str = str_replace( "{/xxyyzzxxyyyzz}", "</span>", $str);   
 	  
 		return $str;   
 	}  	

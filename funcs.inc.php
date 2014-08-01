@@ -20,7 +20,7 @@
    
   **/
  
- $IS_DEBUG = 1;
+ //$IS_DEBUG = 1;
  //$IS_TECH_STOP = 1;
  
  if( isset($IS_TECH_STOP) )
@@ -1513,10 +1513,10 @@ function display_menu( $basedir = "" )
 						 '<li class="item_sep"><a href="'. $basedir . 'phps/gral_elegir_usuario.php?the_action=sanciones_cumplidas"><h1><img src="' . $basedir . 'images/menu_icons/icon_cumplimiento_sanc.png"></h1>' . $SRVMENU_ITEM8 . '</a></li>'.
 						 '<li><a href="'. $basedir . 'phps/gral_elegir_usuario.php?the_action=restricciones"><h1><img src="' . $basedir . 'images/menu_icons/icon_restricciones.png"></h1>' . $SRVMENU_ITEM9 . '</a></li>';
 					
-					/**if( getsessionvar("id_biblioteca") == 11 )
+					if( getsessionvar("id_biblioteca") == 11 )
 					{
 						echo '<li class="item_sep"><a href="'. $basedir . 'phps/gral_importar_acervo.php"><h1><img src="' . $basedir . 'images/menu_icons/icon_restricciones.png"></h1>IMPORTAR ACERVO</a></li>';
-					}**/
+					}
 										 
 					echo '</ul>';			
 				echo '</li>';
@@ -2121,7 +2121,7 @@ function USER_SHOW_QuickLinks( $id_biblioteca, $id_usuario )
 	
 	echo "		<li><a href='phps/anls_catalogacion.php'>$ANLSMENU_ITEM1</a></li>";
 	echo "		<li><a href='phps/anls_consultatitulos.php'>$ANLSMENU_ITEM7</a></li>";
-	echo "		<li><a href='phps/anls_existencias.php'>$ANLSMENU_ITEM3</a></li>";
+	echo "		<li><a href='phps/gral_elegir_item.php?the_action=existencias'>$ANLSMENU_ITEM3</a></li>";
 	
 	echo "		<li><a href='phps/gral_elegir_usuario.php?the_action=prestamos'>$CIRMENU_ITEM1</a></li>";
 	echo "		<li><a href='phps/gral_elegir_item.php?the_action=devoluciones'>$CIRMENU_ITEM6</a></li>";
