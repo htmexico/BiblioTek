@@ -1,9 +1,0 @@
-Datos sobre el sistema de bibliotecas
-
-Este núcleo de actividad cuenta con tres normas de informática documental básicas : la ISO 2709, los formatos MARC y la ISO 1001.
-
-ISO 1001. Relativa a la estructura y etiquetado de cintas magnéticas para el intercambio de información para transferir grandes volúmenes de datos bibliográficos a otras bibliotecas. 
-ISO 2709 Define la estructura o disposición física en el soporte informático de los registros bibliográficos para posibilitar su intercambio entre diferentes sistemas automatizados. 
-MARC. Definen un sistema de códigos para identificar los datos de registros bibliográficos, autoridades, fondos y localizaciones y de sistemas de clasificación definidos por las ISBD, normas de tesauros y clasificaciones bibliográficas. 
-Z39.50 Permite buscar, recuperar y transferir registros bibliográficos en formato MARC con sistemas conectados con programas cliente y servidor Z39.50" (3) 
-
