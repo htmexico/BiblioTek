@@ -165,18 +165,22 @@
 				{
 					if( $obj_blob = ibase_blob_create( $this->db_link ) )
 					{
+						$ascii_blob = $do_the_commit;
+						$ascii_blob2 = "<!--none-->";
+						
 						ibase_blob_add( $obj_blob, $ascii_blob );
 						$blob_id_str = ibase_blob_close( $obj_blob ); 
 						
 						if( $ascii_blob2 == "<!--none-->" )
 						{
 						   // un blob o ninguno
-						   $qryres = ibase_query( $link, $sqlcommand, $blob_id_str ) or die("no se pudo ejecutar la consulta BLOB: $sqlcommand" );
+						   $qryres = ibase_query( $this->db_link, $sqlcommand, $blob_id_str ) or die("no se pudo ejecutar la consulta BLOB: $sqlcommand" );
 						}
 						else
 						{
+						   // en Bibliotek no se soportan 2 blobs
 						   // vienen ambos
-						   if( $obj_blob2 = ibase_blob_create( $link ) )
+						   /**if( $obj_blob2 = ibase_blob_create( $link ) )
 						   {
 							   ibase_blob_add( $obj_blob2, $ascii_blob2 ) ;
 							   $blob_id2_str = ibase_blob_close( $obj_blob2 );
@@ -185,6 +189,7 @@
 						   }
 						   else
 							  die( "error creando SWAP space" );
+						**/
 						}
 					}
 				}

@@ -88,8 +88,13 @@
 				if( strlen($str_val) > 250 )
 					$str_val = substr( $str_val, 0, 250 );
 
-				$db->ExecSQL( "INSERT INTO tmp_sessions_data (ID_BIBLIOTECA, SESSION_ID, SESSION_TYPE, ID_USUARIO, DATA, DATA_CAUX1, DATA_AUX1 ) " .
-							" VALUES ($id_biblioteca, '" . session_id() . "', $CUR_SESSION_TYPE, $id_usuario, '$id_titulo', '$str_val', " . $array_catalog[ $xyz ]["id_titulo"] . " ) " );
+			//	$db->ExecSQL( "INSERT INTO tmp_sessions_data (ID_BIBLIOTECA, SESSION_ID, SESSION_TYPE, ID_USUARIO, DATA, DATA_CAUX1, DATA_AUX1 ) " .
+			//				" VALUES ($id_biblioteca, '" . session_id() . "', $CUR_SESSION_TYPE, $id_usuario, '$id_titulo', '$str_val', " . $array_catalog[ $xyz ]["id_titulo"] . " ) " );
+			
+				$db->ExecCommand( "INSERT INTO tmp_sessions_data (ID_BIBLIOTECA, SESSION_ID, SESSION_TYPE, ID_USUARIO, DATA, DATA_CAUX1, DATA_AUX1 ) " .
+						" VALUES ($id_biblioteca, '" . session_id() . "', $CUR_SESSION_TYPE, $id_usuario, '$id_titulo', ?, " . $array_catalog[ $xyz ]["id_titulo"] . " ) ", 
+							1, $str_val ); 
+			
 			}
 		}
 		
