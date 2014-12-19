@@ -17,6 +17,7 @@ Requisitos de Uso:
 - Apache 2.x
 - PHP 5.2.x
 - Servicio de email de salida para aprovechar la mensajería automatizada.
+- Firebird 2.1 o superior.
 
 Equipo de cómputo necesario:
 
