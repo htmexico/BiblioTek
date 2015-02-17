@@ -1564,11 +1564,13 @@
 				$mail = new PHPMailer(true);
 
 				// enables SMTP debug information (for testing)
-				$mail->SMTPDebug  = 0;                     	
+				$mail->SMTPDebug  = 0;             
+				
+				if( isset($EMAIL->smtp_debug) )
+					$mail_over_smtp->SMTPDebug = 1;
+				        	
 				$mail->PluginDir = "../basic/PHPMailer/";								
-				$mail->IsSMTP();
-
-				//$mail->Mailer = "smtp";
+				$mail->IsSMTP(); //$mail->Mailer = "smtp";
 
 				$mail->SMTPAuth = true;
 				$mail->Host     = $EMAIL->smtp_host;

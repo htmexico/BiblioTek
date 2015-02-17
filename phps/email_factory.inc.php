@@ -61,10 +61,12 @@
 
 		// enables SMTP debug information (for testing)
 		$mail_over_smtp->SMTPDebug = 0;
-		$mail_over_smtp->PluginDir = "../basic/PHPMailer/";
-		$mail_over_smtp->IsSMTP();
 		
-		//$mail_over_smtp->Mailer = "smtp";
+		if( isset($EMAIL->smtp_debug) )
+			$mail_over_smtp->SMTPDebug = 1;
+		
+		$mail_over_smtp->PluginDir = "../basic/PHPMailer/";
+		$mail_over_smtp->IsSMTP(); //$mail_over_smtp->Mailer = "smtp";
 
 		$mail_over_smtp->SMTPAuth = true;
 		$mail_over_smtp->SMTPKeepAlive = true;
