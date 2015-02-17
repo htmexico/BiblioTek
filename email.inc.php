@@ -6,6 +6,8 @@ unset($EMAIL);
 
 global $EMAIL;
 
+$EMAIL = new stdClass();
+
 $EMAIL->smtp_host    = "mail.yourdomain.edu";
 $EMAIL->smtp_user    = "service@yourdomain.edu";
 $EMAIL->smtp_pass    = "";
