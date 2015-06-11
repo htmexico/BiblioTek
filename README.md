@@ -79,19 +79,19 @@ Documentadas desde un servidor Linux Ubuntu 12.04, ingresando como usuario root 
 
 6. Cree el directorio /www-bibliotek donde se instalará el código y la página de inicio de BiblioTEK.
 
-	`mkdir /www-bibliotek`
-	`mkdir /www-bibliotek/images`
-	`mkdir /www-bibliotek/propios`
-	`cd /www-bibliotek`
-	`sudo apt-get install git-core`  (omita esta instruccion si el comando git ya está instalado)
-	`git clone https://github.com/htmexico/BiblioTek.git`
+	`mkdir /www-bibliotek`<br>
+	`mkdir /www-bibliotek/images`<br>
+	`mkdir /www-bibliotek/propios`<br>
+	`cd /www-bibliotek`<br>
+	`sudo apt-get install git-core`  (omita esta instruccion si el comando git ya está instalado)<br>
+	`git clone https://github.com/htmexico/BiblioTek.git`<br>
 
 7. Configure la página inicial de BiblioTEK.
 
-	`cd /www-bibliotek`
-	`cp BiblioTek/APP_CONFIG.php .`
-	`cp BiblioTek/GLOBAL_CONFIG.php .`
-	`cp BiblioTek/index_subdomain.php index.php`
+	`cd /www-bibliotek`<br>
+	`cp BiblioTek/APP_CONFIG.php .`<br>
+	`cp BiblioTek/GLOBAL_CONFIG.php .`<br>
+	`cp BiblioTek/index_subdomain.php index.php`<br>
 
 	7.1. Editar APP_CONFIG.php y verificar los valores de su instalación, tales como IP y banner (el banner será necesario para su página web inicial).
 
