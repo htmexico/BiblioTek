@@ -151,7 +151,7 @@
 			{
 				$qryres = mysql_query( $this->db_link, $sqlcommand  ) or db_die();
 
-				if ( eregi('insert|update|delete|create', $sqlcommand )) 
+				if ( preg_match("/insert|update|delete|create/i", $sqlcommand )) 
 				{
 				  $qryres = mysql_affected_rows();				  
 				  mysql_commit();
@@ -196,7 +196,7 @@
 				else
 					$qryres = ibase_query( $this->db_link, $sqlcommand ) or die("no se pudo ejecutar la consulta: $sqlcommand" );
 
-				if ( eregi('insert|update|delete|create', $sqlcommand )) 
+				if ( preg_match( "/insert|update|delete|create/i", $sqlcommand )) 
 				{
 				  $qryres = ibase_affected_rows();				  
 				  
