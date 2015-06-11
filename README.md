@@ -55,9 +55,9 @@ Documentadas desde un servidor Linux Ubuntu 12.04, ingresando como usuario root 
 
 3. Instale el servidor de base de datos Firebird
 
-	`sudo add-apt-repository ppa:mapopa`
-	`sudo apt-get update`
-	`sudo apt-get install firebird2.5-superclassic firebird2.5-examples firebird2.5-dev`
+	`sudo add-apt-repository ppa:mapopa`<br>
+	`sudo apt-get update`<br>
+	`sudo apt-get install firebird2.5-superclassic firebird2.5-examples firebird2.5-dev`<br>
 	
 	Importante: Se le pedirá asignar un password al usuario SYSDBA, anótela cuidadosamente. p.e. supasswordSYSDBA
 	
@@ -66,16 +66,16 @@ Documentadas desde un servidor Linux Ubuntu 12.04, ingresando como usuario root 
 
 4. Instale el soporte de Firebird sobre PHP.
 
-	`sudo apt-get install php5-interbase`
-	`php5enmod interbase`
+	`sudo apt-get install php5-interbase`<br>
+	`php5enmod interbase`<br>
 
 5. Instalar la base de datos de BiblioTEK.
 
-	`mkdir /opt/datos`
-	`cd /opt/datos`
-	`wget http://www.htmex.mx/descargas/bibliotek_bd.bak`
-	`gbak –R bibliotek_bd.bak biblio.fdb –USER SYSDBA –PASSWORD supasswordSYSDBA`
-	`chown firebird.firebird /opt/datos/biblio.fdb` 
+	`mkdir /opt/datos`<br>
+	`cd /opt/datos`<br>
+	`wget http://www.htmex.mx/descargas/bibliotek_bd.bak`<br>
+	`gbak –R bibliotek_bd.bak biblio.fdb –USER SYSDBA –PASSWORD supasswordSYSDBA`<br>
+	`chown firebird.firebird /opt/datos/biblio.fdb` <br>
 
 6. Cree el directorio /www-bibliotek donde se instalará el código y la página de inicio de BiblioTEK.
 
@@ -122,9 +122,9 @@ Documentadas desde un servidor Linux Ubuntu 12.04, ingresando como usuario root 
 
 8. Configure la respuesta de apache web server al directorio /www-bibliotek.
 
-	`cd /etc/apache2/sites-available`
-	`cp 000-default.conf bibliotek.conf`
-	`a2dissite 000-default.conf`
+	`cd /etc/apache2/sites-available`<br>
+	`cp 000-default.conf bibliotek.conf`<br>
+	`a2dissite 000-default.conf`<br>
 	
 	8.1 Editar bibliotek.conf para configurar la respuesta http, con los siguientes valores:
 	
@@ -145,7 +145,7 @@ Documentadas desde un servidor Linux Ubuntu 12.04, ingresando como usuario root 
 	
 9. Verifique toda su instalación.
 
-	`service apache2 restart`
+	`service apache2 restart`<br>
 	`service firebird2.5-superclassic restart`
 	
 	Ahora ingrese a través de un navegador y coloque su dirección IP, p.e. http://www.xxx.yyy.zzz, su respuesta debe ser del sistema BiblioTEK posiblemente con
@@ -157,12 +157,18 @@ Documentadas desde un servidor Linux Ubuntu 12.04, ingresando como usuario root 
 	
 	Asegurarse que los parametros db_name correspondan a su base de datos creada en el paso 5 y su password de Firebird anotado en el paso 3.
 	
-	`
+	<?php
+		unset($CFG);
+		
+		global $CFG;
+		
+		$CFG = new stdClass();
+
 		$CFG->db_host    = 'localhost';
 		$CFG->db_name    = '/opt/datos/biblio.fdb;
 		$CFG->db_user    = 'SYSDBA';
 		$CFG->db_pass    = 'supasswordSYSDBA';
-	`
+	?>
 
 	Ahora su servicio BiblioTEK ya deberá establecer una conexión correcta con la base datos.
 	
