@@ -322,7 +322,7 @@
 			{	  
 				$nombre_archivo = $_FILES['userfile']['tmp_name'];
 				
-				if ( eregi('.zip', $_FILES['userfile']['name'] ) ) 
+				if ( preg_match('/.zip/', $_FILES['userfile']['name'] ) ) 
 				{
 					// archivo ZIP
 					$zip = new ZipArchive();

@@ -117,13 +117,13 @@
 	global $CFG;
 	require_once( "../config_db.inc.php" );
   
-    $anio = date( "Y", mktime());
-    $mes  = date( "m", mktime());
-	$dia  = date( "d", mktime());
+    $anio = date( "Y", time());
+    $mes  = date( "m", time());
+	$dia  = date( "d", time());
 	
-	$hora = date( "H", mktime());
-	$min  = date( "i", mktime());
-	$segs = date( "s", mktime());
+	$hora = date( "H", time());
+	$min  = date( "i", time());
+	$segs = date( "s", time());
 	
 	if( $CFG->db_type == "interbase" )
 	{

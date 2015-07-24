@@ -55,7 +55,7 @@
 	//
 	function colocar_popup( $idpopup, $dbx, $cTituloDIV, $cCampo, $cCodigo, $input_control_name, $filtro_subcodigo = "", $colocar_icono_flecha=true )
 	{
-		if( eregi( "{", $cCampo ) )
+		if( strpos( $cCampo, "{" ) !== false )
 		{
 			// se colocará un link para abrir un TESAURO DE SISTEMA (TABLAS {MARC})
 			// se debe traer el CODIGO_CORTO desde el tesauro
@@ -64,7 +64,7 @@
 			
 			echo "<a class='icon_link' style='position: relative; top: -3px; ' href='javascript:showPopupMenuTesauro( $cCampo, \"$input_control_name\", 0 )'><img src='../images/arrow_down.gif' title='Elegir $cTituloDIV'></a>";
 		}
-		else if( eregi( "<", $cCampo ) )
+		else if( strpos( $cCampo, "<" ) !== false )
 		{
 			// se colocará un link para abrir un TESAURO DEFINIDO POR LA RED DE BIBLIOTECAS (TESAURO PROPIO)
 			// se debe traer el TERMINO desde el tesauro

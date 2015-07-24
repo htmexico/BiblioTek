@@ -165,7 +165,7 @@ Documentadas desde un servidor Linux Ubuntu 12.04, ingresando como usuario root 
 		$CFG = new stdClass();
 
 		$CFG->db_host    = 'localhost';
-		$CFG->db_name    = '/opt/datos/biblio.fdb;
+		$CFG->db_name    = '/opt/datos/biblio.fdb';
 		$CFG->db_user    = 'SYSDBA';
 		$CFG->db_pass    = 'supasswordSYSDBA';
 	?>

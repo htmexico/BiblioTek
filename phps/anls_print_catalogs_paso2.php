@@ -107,13 +107,13 @@
 		$incluir_temas = 0;
 		$incluir_serie = 0;
 			
-		if( eregi( '1', $contenido ) ) $incluir_num_control = 1;
-		if( eregi( '2', $contenido ) ) $incluir_autor = 1;			
-		if( eregi( '3', $contenido ) ) $incluir_titulo = 1;						
-		if( eregi( '4', $contenido ) ) $incluir_datos_edicion = 1;
-		if( eregi( '5', $contenido ) ) $incluir_descrip_fisica = 1;
-		if( eregi( '6', $contenido ) ) $incluir_temas = 1;
-		if( eregi( '7', $contenido ) ) $incluir_serie = 1;			
+		if( strpos( $contenido, '1' ) ) $incluir_num_control = 1;
+		if( strpos( $contenido, '2' ) ) $incluir_autor = 1;			
+		if( strpos( $contenido, '3' ) ) $incluir_titulo = 1;						
+		if( strpos( $contenido, '4' ) ) $incluir_datos_edicion = 1;
+		if( strpos( $contenido, '5' ) ) $incluir_descrip_fisica = 1;
+		if( strpos( $contenido, '6' ) ) $incluir_temas = 1;
+		if( strpos( $contenido, '7' ) ) $incluir_serie = 1;			
 
 		if( $cat_type == "author" ) 
 			$str_order_by = "$LBL_PRINT_CATALOG_SUBTITLE_ORDER_BY_AUTHOR";

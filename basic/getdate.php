@@ -64,7 +64,7 @@ else{
     if( isset($select) )
     {
        // el formato de fecha debe venir en dd/mm/AAAA
-	   if( eregi("/", $select ) )
+	   if( strpos( $select, "/" ) !== false )
 	   {
 	      $_day = substr( $select, 0, 2 );
 	      $_month = substr( $select, 3, 2 );
