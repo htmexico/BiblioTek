@@ -144,7 +144,7 @@ function db_query( $query, $con_blob=0, $ascii_blob="<!--none-->", $ascii_blob2=
 
 		$qryres = mysql_query( $query ) or db_die();
 
-		if ( eregi('insert|update|delete|create', $query )) 
+		if ( preg_match( "/insert|update|delete|create/", $query )) 
 		{
 		  $qryres = mysql_affected_rows();
 		  
@@ -187,7 +187,7 @@ function db_query( $query, $con_blob=0, $ascii_blob="<!--none-->", $ascii_blob2=
 		else
 			$qryres = ibase_query( $link, $query ) or die("no se pudo ejecutar la consulta: $query" );
 
-		if ( eregi('insert|update|delete|create', $query )) 
+		if ( preg_match('/insert|update|delete|create/', $query )) 
 		{
 		  $qryres = ibase_affected_rows();
 		  //$qryres = 1; // ibase_affected_rows();
@@ -407,13 +407,13 @@ function current_dateandtime( $humanreadable = 0 )
     global $CFG;
 	require_once( "config_db.inc.php" );
 	
-	$anio = date( "Y", mktime());
-    $mes  = date( "m", mktime());
-	$dia  = date( "d", mktime());
+	$anio = date( "Y", time());
+    $mes  = date( "m", time());
+	$dia  = date( "d", time());
 	
-	$hora = date( "H", mktime());
-	$min  = date( "i", mktime());
-	$segs = date( "s", mktime());
+	$hora = date( "H", time());
+	$min  = date( "i", time());
+	$segs = date( "s", time());
 	
 	if( $dia < 10 and strlen($dia)==1 ) $dia = "0" . $dia;
 	if( $mes < 10 and strlen($mes)==1 ) $mes = "0" . $mes;
@@ -1132,42 +1132,42 @@ function obtener_file_info( $mimetype, $info=1 )
     $imageicon = "";
 	$descripcion = "";
 	
-    if( eregi("excel", $mimetype ) )
+    if( strpos($mimetype, "excel" ) !== false )
 	{
 	   $imageicon = "<IMG SRC='../images/iconos/excel.ico'>";
 	   $descripcion = "MS Excel";
 	}
-    else if( eregi("word", $mimetype ) )
+    else if( strpos($mimetype, "word") !== false )
 	{
 	   $imageicon = "<IMG SRC='../images/icons/msword_icon.gif'>";
 	   $descripcion = "MS Word";
 	}
-    else if( eregi("access", $mimetype ) )
+    else if(  strpos($mimetype, "access") !== false )
 	{
 	   $imageicon = "<IMG SRC=../images/iconos/access.ico>";
 	   $descripcion = "MS Access";
 	}
-    else if( eregi("powerpoint", $mimetype ) )
+    else if( strpos($mimetype, "powerpoint") !== false )
 	{
 	   $imageicon = "<IMG SRC=../images/iconos/pwpoint.ico>";
 	   $descripcion = "MS PowerPoint";
 	}
-    else if( eregi("zip", $mimetype ) )
+    else if( strpos($mimetype, "zip") !== false  )
 	{
 	   $imageicon = "<IMG SRC='../images/iconos/winzip_icon.gif'>";
 	   $descripcion = "ZIP file";
 	}
-    else if( eregi("text/plain", $mimetype ) )
+    else if( strpos($mimetype, "text/plain") !== false )
 	{
 	   $imageicon = "<IMG SRC='../images/iconos/text_icon.gif'>";
 	   $descripcion = "ASCII";
 	}	
-    else if( eregi("acrobat", $mimetype ) or eregi("pdf", $mimetype ) )
+    else if( strpos($mimetype, "acrobat") !== false  or strpos($mimetype, "pdf") !== false )
 	{
 	   $imageicon = "<IMG SRC='../images/iconos/pdf_icon.gif'>";
 	   $descripcion = "PDF";
 	}
-    else if( eregi("jpeg", $mimetype ) or eregi("jpg", $mimetype ) or eregi("gif", $mimetype ) )
+    else if( preg_match("/jpeg|jpg|gif/", $mimetype ) )
 	{
 	   $imageicon = "<IMG SRC=../images/iconos/graphic_icon.gif>";
 	   $descripcion = "Imagen";
@@ -1190,7 +1190,7 @@ function ges_redirect( $url )
      header( "302 Moved" ); 
   }
 
-  if( !eregi( "Location", $url ) )
+  if( strpos( $url, "Location" ) === false )
 	$url = "Location:" . $url;
   
   header( $url );

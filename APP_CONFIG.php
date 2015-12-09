@@ -9,6 +9,8 @@
 
 unset( $ACCESS_CFG );
 
+$ACCESS_CFG = new stdClass();
+
 $ACCESS_CFG->id_biblioteca    = 1;
 $ACCESS_CFG->codigo_cuenta = "localges";
 

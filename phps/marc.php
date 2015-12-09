@@ -3363,7 +3363,7 @@ class record_MARC21
 		$autoridad = 0;
 		$hay = 0;
 		
-		if( eregi( "{", $objSubCampo->cTesauro ) )
+		if( strpos( $objSubCampo->cTesauro, "{" ) !== false )
 		{
 			$resultqry = $this->dbx->SubQuery( "SELECT a.ID_CATEGORIA, a.DESCRIPCION FROM tesauro_categorias a WHERE a.ID_RED=$id_red and a.DESCRIPCION='$objSubCampo->cTesauro'" );
 
@@ -3498,7 +3498,7 @@ class record_MARC21
 				$val .= $cTematizacion_Otros;
 			}
 		}
-		else if( eregi( '&', $fields_mask ) )
+		else if( strpos( $fields_mask, '&' ) !== false )
 		{
 			$aElementos = split( "&", $fields_mask );
 			
