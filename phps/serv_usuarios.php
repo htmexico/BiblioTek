@@ -97,7 +97,6 @@
 		{
 			$db = new DB();
 	
-//require_once( "adm_dbsync_funcs.php" );
 			$file_processing = 1;
 		
 			$id_grupo_migrar = read_param( "cmb_group_to_migrate_into", "", 1 );
@@ -244,6 +243,8 @@
 				}
 				
 			}
+			else
+				die( "Error en la lectura o suministro del archivo de importacion" );
 			
 			if( $creados > 0 )
 			{
@@ -433,7 +434,7 @@
 				}
 				
 				document.import_users.id_group.value = "";
-				document.import_users.method = "POST";
+		document.import_users.method = "POST";
 				document.import_users.target = "_self";
 				document.import_users.submit();
 			}
@@ -684,7 +685,7 @@ div.x-pageRanges
 								if( $usr_group['USUARIOS_ADMINISTRATIVOS'] == "S" )
 								{
 									$usuarios_administrativos = "**";
-									SYNTAX_JavaScript( 1, 1, "aGruposAdmvos.push( " . $db->row['ID_GRUPO'] . ");" );
+									SYNTAX_JavaScript( 1, 1, "aGruposAdmvos.push( " . $usr_group['ID_GRUPO'] . ");" );
 								}
 								
 								echo "<option " . ( $id_group==$usr_group["ID_GRUPO"] ? "selected":"")." value='" . $usr_group["ID_GRUPO"] . "'>" . $usr_group["NOMBRE_GRUPO"]. "$usuarios_administrativos</option>";
@@ -822,7 +823,7 @@ div.x-pageRanges
 			
 			if( isset($msg_exito) )
 			{
-				echo "<div class=caja_info>";
+				echo "<div class='caja_info' style='font-size:130%; margin-bottom:15px;'>";
 				echo " <strong>$msg_exito</strong>";
 				echo "</div>";				
 			}
