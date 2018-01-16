@@ -1363,7 +1363,6 @@ function display_global_nav()
 		echo "&nbsp;<a href='$link_4_logout'>&laquo; $LBL_LOGOUT </a>&nbsp;";
 	}
 	
-  	echo '<a href="http://www.ebibliotek.com" target="new"><strong>www.eBiblioTEK.com</strong></a>';
 	echo '</div>';
 }
 
