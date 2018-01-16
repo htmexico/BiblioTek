@@ -456,7 +456,7 @@
 					if( $en_tablas == 1 )
 					{
 						echo "<tr>";
-						echo " <td class='columna cuadricula' colspan='$total_columnas'><strong>" . $db->row["VALOR"] ."</strong></td>";
+						echo " <td class='columna cuadricula' colspan='$total_columnas'><strong>" . $db->GetBLOB( $db->row["VALOR"] ) ."</strong></td>";
 						echo "</tr>";
 					}
 					else
@@ -477,7 +477,7 @@
 						if( $colspan==0 ) $colspan=1; // al menos una columa SIEMPRE
 						
 						echo "\n\n";
-						echo "<tr><td colspan='$cols'><strong><span style='font-size:140%;'>" . $db->row["VALOR"] ."</span></strong></td></tr>";
+						echo "<tr><td colspan='$cols'><strong><span style='font-size:140%;'>" . $db->GetBLOB( $db->row["VALOR"] ) ."</span></strong></td></tr>";
 						
 						$this_col = 1;  // reset 
 					}
