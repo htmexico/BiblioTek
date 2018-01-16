@@ -73,6 +73,10 @@ function AbrirCentrado()
 		if( chk_obj.checked )
 			contenido = contenido +"{7}";					
 			
+		chk_obj = js_getElementByName("chk_content_location");
+		if( chk_obj.checked )
+			contenido = contenido +"{8}";	
+
 		if( contenido == "" )
 		{
 			alert( "<?php echo $MSG_NOT_CONTENT_SELECTED;?>" );
@@ -248,6 +252,13 @@ display_global_nav(); // barra de navegación superior
 			echo "</dt>";
 			echo "<dd>";
 			echo "    <input type='checkbox' class='checkbox' name='chk_content_series' id='chk_content_series'>&nbsp;$LBL_CONTENT_INCLUDE_SERIE<br>";
+			echo "</dd>";							
+
+			echo "<dt>";
+			echo "   <label>&nbsp;</label>";
+			echo "</dt>";
+			echo "<dd>";
+			echo "    <input type='checkbox' class='checkbox' name='chk_content_location' id='chk_content_location'>&nbsp;$LBL_CONTENT_INCLUDE_LOCATION<br>";
 			echo "</dd>";							
 			
 			

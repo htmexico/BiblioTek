@@ -101,6 +101,8 @@
 		
 			$id_grupo_migrar = read_param( "cmb_group_to_migrate_into", "", 1 );
 		
+			$id_group = $id_grupo_migrar;
+		
 			$creados = 0;
 		
 			if( is_uploaded_file($_FILES['userfile']['tmp_name']) ) 		
